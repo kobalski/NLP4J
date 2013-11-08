@@ -19,57 +19,40 @@
         <mockito.version>1.9.0</mockito.version>
         <github.global.server>github</github.global.server>
     </properties>
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Temporary Staging Repository</name>
+            <url>file://${project.build.directory}/mvn-repo</url>
+        </repository>
+    </distributionManagement>
     <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.8</version>
+                <configuration>
+                    <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+                    <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
+                    <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
+                    <includes><include>**/*</include></includes>
+                    <repositoryName>maven-repository</repositoryName>      <!-- github repo name -->
+                    <repositoryOwner>kobalski</repositoryOwner>    <!-- github username  -->
+                </configuration>
+                <executions>
+                 <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <finalName>NLP4J</finalName>
-        <plugins> 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
-                <configuration>
-                    <source>${source.compiler.version}</source>
-                    <target>${target.compiler.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven.resources.plugin.version}</version>
-                <configuration>
-                      <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
-            </plugin>
-           
-        <plugin>
-            <groupId>com.github.github</groupId>
-            <artifactId>site-maven-plugin</artifactId>
-            <version>0.8</version>
-            <configuration>
-                <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
-                <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
-                <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
-                <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
-                <includes><include>**/*</include></includes>
-                <repositoryName>maven-repository</repositoryName>      <!-- github repo name -->
-                <repositoryOwner>kobalski</repositoryOwner>    <!-- github username  -->
-            </configuration>
-            <executions>
-              <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
-              <execution>
-                <goals>
-                  <goal>site</goal>
-                </goals>
-                <phase>deploy</phase>
-              </execution>
-            </executions>
-        </plugin>
-      	</plugins>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -85,37 +68,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-       
         <!-- logging -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-       
-        </dependencies>
-        
-       <distributionManagement>
-                <repository>
-                        <id>maven-repository</id>
-                        <name>Internal maven-repository</name>
-                        <url>https://github.com/kobalski/maven-repository</url>
-                </repository>
-                <site>
-                    <id>site</id>
-                    <name>Site</name>
-                    <url>https://github.com/kobalski/maven-repository/</url>
-                </site>
-        </distributionManagement>
- 
-    <repositories>
-        <repository>
-            <id>nexus-maven-repository</id>
-            <url>https://maven-us.nuxeo.org/nexus/content/groups/public/</url>
-        </repository>
-                <repository>
-                        <id>my-maven-repository</id>
-                        <url>https://github.com/kobalski/maven-repository/raw/master/</url>
-                </repository>
-        </repositories>
+    </dependencies>
 </project>
