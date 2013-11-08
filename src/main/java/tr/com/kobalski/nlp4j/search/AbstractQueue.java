@@ -1,6 +1,5 @@
 package tr.com.kobalski.nlp4j.search;
 
-
 import java.util.LinkedList;
 import java.util.List;
 

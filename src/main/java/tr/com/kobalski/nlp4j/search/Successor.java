@@ -1,8 +1,5 @@
 package tr.com.kobalski.nlp4j.search;
 
-
-
-
 public class Successor {
 
 	private String action;
