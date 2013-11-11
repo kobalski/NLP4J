@@ -1,14 +1,15 @@
 package tr.com.kobalski.nlp4j.domain.builder;
 
-import java.util.List;
+import java.util.Map;
 
+import tr.com.kobalski.nlp4j.domain.model.Tag;
 import tr.com.kobalski.nlp4j.domain.model.TagSequence;
 
 public class TagSequenceBuilder implements Builder<TagSequence> {
 
 	private long				id;
 	private String 				sequenceName;
-	private List<String>		listOfTags;
+	private  Map<String,Tag>	listOfTags;
 	
 	public TagSequenceBuilder id(long id){
 		this.id = id;
@@ -20,7 +21,7 @@ public class TagSequenceBuilder implements Builder<TagSequence> {
 		return this;
 	}
 
-	public TagSequenceBuilder listOfTags(List<String> listOfTags ){
+	public TagSequenceBuilder listOfTags( Map<String,Tag> listOfTags ){
 		this.listOfTags = listOfTags;
 		return this;
 	}
